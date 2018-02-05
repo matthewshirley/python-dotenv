@@ -62,7 +62,9 @@ def set_key(dotenv_path, key_to_set, value_to_set, quote_mode="always"):
     if not os.path.exists(dotenv_path):
         warnings.warn("can't write to %s - it doesn't exist." % dotenv_path)
         return None, key_to_set, value_to_set
-    dotenv_as_dict = OrderedDict(parse_dotenv(dotenv_path))
+    dotenv_as_dict = OrderedDict(
+        
+        _dotenv(dotenv_path))
     dotenv_as_dict[key_to_set] = value_to_set
     success = flatten_and_write(dotenv_path, dotenv_as_dict, quote_mode)
     return success, key_to_set, value_to_set
@@ -104,7 +106,7 @@ def parse_dotenv(dotenv_path):
             k, v = line.split('=', 1)
 
             # Remove any leading and trailing spaces in key, value
-            k, v = k.strip(), v.strip().encode('unicode-escape').decode('ascii')
+            k, v = k.strip(), str(v.strip().encode('unicode-escape').decode('ascii'))
 
             if len(v) > 0:
                 quoted = v[0] == v[-1] in ['"', "'"]
