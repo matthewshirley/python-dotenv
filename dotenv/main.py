@@ -26,9 +26,9 @@ def load_dotenv(dotenv_path, verbose=False, override=False):
         return None
     for k, v in dotenv_values(dotenv_path).items():
         if override:
-            os.environ[k] = v
+            os.environ[k] = str(v)
         else:
-            os.environ.setdefault(k, v)
+            os.environ.setdefault(k, str(v))
     return True
 
 
